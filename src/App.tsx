@@ -96,8 +96,29 @@ function App() {
     }
   };
 
-  const download = () => {
+  const download = async () => {
     if (!imageUrl) return;
+
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `quickqr-${Date.now()}.png`, {
+        type: "image/png",
+      });
+
+      // Use native share sheet on mobile if supported
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "QuickQR Code",
+        });
+        return;
+      }
+    } catch (err) {
+      // fall through to standard download below
+    }
+
+    // Standard download for desktop browsers
     const a = document.createElement("a");
     a.href = imageUrl;
     a.download = `quickqr-${Date.now()}.png`;
