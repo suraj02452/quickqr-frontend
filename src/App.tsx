@@ -9,6 +9,7 @@ import {
   AlertCircle,
   ScanLine,
 } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 
 const API_BASE = "https://quickqr-backend-zknx.onrender.com";
 
@@ -143,6 +144,8 @@ function App() {
             Paste a link or any text. Get a scannable QR code in seconds.
           </p>
         </header>
+
+        <Analytics />
 
         {/* Card */}
         <section className="w-full rounded-2xl border border-ink-700 bg-ink-900/80 p-6 shadow-2xl backdrop-blur-sm sm:p-8">
